@@ -17,6 +17,13 @@ clusterGroup:
       channel: release-2.11
       # csv: advanced-cluster-management.v2.6.1
 
+
+    portworx:
+      name: portworx-certified
+      namespace: portworx
+      channel: stable
+      source: certified-operators
+
   projects:
     - hub
     - portworx
