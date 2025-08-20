@@ -48,7 +48,7 @@ clusterGroup:
 
     portworx-console-plugin:
       name: portworx-console-plugin
-      namespace: openshift-console
+#      namespace: openshift-console
       project: portworx
       path: charts/all/portworx
 
