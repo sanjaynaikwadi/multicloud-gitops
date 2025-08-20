@@ -1,8 +1,12 @@
-apiVersion: console.openshift.io/v1
+apiVersion: operator.openshift.io/v1
 kind: Console
 metadata:
   name: cluster
 spec:
   plugins:
+    - monitoring-plugin
+    - kubevirt-plugin
+    - mce
+    - acm
     - portworx
 
