@@ -24,6 +24,8 @@ clusterGroup:
       channel: stable
       source: certified-operators
 
+
+
   projects:
     - hub
     - portworx
@@ -85,6 +87,12 @@ clusterGroup:
       project: portworx
       path: charts/all/portworx
 
+
+    portworx-console-plugin:
+      name: portworx-console-plugin
+      namespace: openshift-console
+      project: portworx
+      path: charts/all/portworx
 
  
 #   config-demo:

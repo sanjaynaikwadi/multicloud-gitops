@@ -45,6 +45,14 @@ clusterGroup:
       project: portworx
       path: charts/all/portworx
 
+
+    portworx-console-plugin:
+      name: portworx-console-plugin
+      namespace: openshift-console
+      project: portworx
+      path: charts/all/portworx
+
+
 #    config-demo:
 #      name: config-demo
 #      namespace: config-demo
