@@ -50,7 +50,7 @@ clusterGroup:
       name: portworx-console-plugin
 #      namespace: openshift-console
       project: portworx
-      path: charts/all/portworx-console-plugin
+      path: charts/all/portworx
 
 
 #    config-demo:
