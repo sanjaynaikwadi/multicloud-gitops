@@ -88,11 +88,11 @@ clusterGroup:
       path: charts/all/portworx
 
 
-#    portworx-console-plugin:
-#      name: portworx-console-plugin
+    portworx-console-plugin:
+      name: portworx-console-plugin
 #      namespace: openshift-console
-#      project: portworx
-#      path: charts/all/portworx
+      project: portworx
+      path: charts/all/portworx-console-plugin
 
  
 #   config-demo:
