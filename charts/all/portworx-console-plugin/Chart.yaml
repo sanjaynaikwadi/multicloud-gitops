@@ -1,4 +1,0 @@
-apiVersion: v2
-name: portworx-console-plugin
-description: Enables Portworx Console Plugin
-version: 0.1.0
