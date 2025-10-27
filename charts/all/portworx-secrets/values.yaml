@@ -1,0 +1,12 @@
+pureSecret:
+  name: px-pure-secret
+  namespace: portworx
+  dataFileName: pure.json
+  data: |
+    {
+      "MgmtEndPoint": "ph531-a41.dev.purestorage.com",
+      "APIToken": "883a55c9-efe2-2e04-0992-c79600d6671f"
+    }
+
+# Argo CD
+syncWave: "1"

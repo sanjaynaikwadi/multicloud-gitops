@@ -50,6 +50,7 @@ metadata:
   name: "{{ required "Clustername cannot be empty" .Values.clusterName }}"
   namespace: {{ template "px.getDeploymentNamespace" . }}
   annotations:
+    argocd.argoproj.io/sync-wave: "3"
     {{- if eq $openshiftInstall true }}
     portworx.io/is-openshift: "true"
     {{- end }}

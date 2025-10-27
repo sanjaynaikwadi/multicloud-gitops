@@ -39,6 +39,19 @@ clusterGroup:
       chart: golang-external-secrets
       chartVersion: 0.1.*
 
+
+    multipath-config-mc:
+      name: multipath-config-mc
+      namespace: portworx
+      project: portworx
+      path: charts/all/multipath-config-mc
+
+    portworx-secrets:
+      name: portworx-secrets
+      namespace: portworx
+      project: portworx
+      path: charts/all/portworx-secrets
+
     portworx:
       name: portworx
       namespace: portworx
