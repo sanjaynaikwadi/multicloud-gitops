@@ -25,14 +25,10 @@ The `charts/all` directory groups together multiple Helm charts that define diff
 📜 License
 
 This project is licensed under the Apache 2.0 License
-.
 
-📚 References
+## 📚 References
 
-Helm Documentation
-
-Argo CD GitOps Guide
-
-OpenShift GitOps Operator
-
-Portworx Operator Reference
+- [Helm Documentation](https://helm.sh/docs/)
+- [Argo CD GitOps Guide](https://argo-cd.readthedocs.io/)
+- [OpenShift GitOps Operator Documentation](https://docs.openshift.com/container-platform/latest/cicd/gitops/gitops-release-notes.html)
+- [Portworx Operator Reference](https://docs.portworx.com/portworx-enterprise)
