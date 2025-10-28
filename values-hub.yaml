@@ -98,6 +98,13 @@ clusterGroup:
       namespace: portworx
       project: portworx
       path: charts/all/portworx
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - ServerSideApply=true
+      ignoreDifferences:
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
 
 
     portworx-console-plugin:
@@ -105,7 +112,10 @@ clusterGroup:
 #      namespace: openshift-console
       project: portworx
       path: charts/all/portworx
-
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - ServerSideApply=true
  
 #   config-demo:
 #      name: config-demo
