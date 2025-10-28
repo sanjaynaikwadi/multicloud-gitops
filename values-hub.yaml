@@ -107,15 +107,15 @@ clusterGroup:
           kind: CustomResourceDefinition
 
 
-    portworx-console-plugin:
-      name: portworx-console-plugin
+#    portworx-console-plugin:
+#      name: portworx-console-plugin
 #      namespace: openshift-console
-      project: portworx
-      path: charts/all/portworx
-      syncPolicy:
-        automated: {}
-        syncOptions:
-          - ServerSideApply=true
+#      project: portworx
+#      path: charts/all/portworx
+#      syncPolicy:
+#        automated: {}
+#        syncOptions:
+#          - ServerSideApply=true
  
 #   config-demo:
 #      name: config-demo
