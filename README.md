@@ -84,7 +84,7 @@ Login as an administrator using the OpenShift CLI:
 
 ```bash
 oc login https://api.<your-cluster-domain>:6443 -u <admin-user> -p <password>
-
+```
 
 🧬 Installation Steps
 
@@ -93,13 +93,13 @@ oc login https://api.<your-cluster-domain>:6443 -u <admin-user> -p <password>
 ```bash
 git clone <repo-url>
 cd <repo-directory>
-
+```
 
 2. Run the installation command:
 
 ```bash
 ./pattern.sh make install
-
+```
 
 3. Wait approximately 30 minutes for deployment to complete.
 
