@@ -23,7 +23,7 @@ Before starting, ensure you have the following on your **development machine**:
 
 > ⚠️ **Important:**  
 > Your OpenShift cluster **must have a default `StorageClass`** configured before proceeding.  
-> Without this, Portworx installation **will fail**.
+> Without this, Pattern installation **will fail**.
 
 ---
 
