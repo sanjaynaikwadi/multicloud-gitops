@@ -1,0 +1,93 @@
+{{- /*
+  MachineConfig to:
+  - Drop desired multipath.conf content to /usr/local/share/multipath.conf.desired
+  - Install /usr/local/bin/multipath-merge.sh
+  - Run a systemd oneshot service to:
+      * create /etc/multipath.conf if missing
+      * else append only lines not already present
+*/ -}}
+
+{{- $mergeScript := printf "#!/bin/bash
+set -e
+
+TARGET=\"/etc/multipath.conf\"
+SOURCE=\"/usr/local/share/multipath.conf.desired\"
+
+echo \"[multipath-merge] TARGET: $TARGET\"
+echo \"[multipath-merge] SOURCE: $SOURCE\"
+
+if [ ! -f \"$SOURCE\" ]; then
+  echo \"[multipath-merge] Source file $SOURCE not found, exiting\"
+  exit 1
+fi
+
+# If target does not exist, just copy it
+if [ ! -f \"$TARGET\" ]; then
+  echo \"[multipath-merge] $TARGET not found, creating from $SOURCE\"
+  cp \"$SOURCE\" \"$TARGET\"
+  exit 0
+fi
+
+# Append only lines from SOURCE that are not already in TARGET (exact line match)
+tmpfile=$(mktemp)
+grep -Fvx -f \"$TARGET\" \"$SOURCE\" > \"$tmpfile\" || true
+
+if [ -s \"$tmpfile\" ]; then
+  echo \"[multipath-merge] Appending new lines to $TARGET\"
+  cat \"$tmpfile\" >> \"$TARGET\"
+else
+  echo \"[multipath-merge] No new lines to append\"
+fi
+
+rm -f \"$tmpfile\"
+exit 0
+" }}
+
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: {{ .Values.namePrefix }}
+  labels:
+    machineconfiguration.openshift.io/role: {{ .Values.targetRole }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "{{ .Values.syncWave }}"
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+        # 1) Store the desired multipath.conf from values.yaml
+        - path: /usr/local/share/multipath.conf.desired
+          mode: 0644
+          overwrite: true
+          contents:
+            source: >
+              data:text/plain;charset=utf-8;base64,{{ .Values.configContent | b64enc }}
+
+        # 2) Install the merge script
+        - path: /usr/local/bin/multipath-merge.sh
+          mode: 0755
+          overwrite: true
+          contents:
+            source: >
+              data:text/plain;charset=utf-8;base64,{{ $mergeScript | b64enc }}
+
+    systemd:
+      units:
+        # 3) One-shot service to merge/append config
+        - name: multipath-merge.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Merge multipath.conf from MachineConfig into node config
+            After=network-online.target
+            Wants=network-online.target
+
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/local/bin/multipath-merge.sh
+
+            [Install]
+            WantedBy=multi-user.target
+
