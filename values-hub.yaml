@@ -34,6 +34,6 @@ clusterGroup:
       project: portworx
       path: charts/all/multipath-config-mc
   
-  imperative: []
+#  imperative: []
   
   managedClusterGroups: []
