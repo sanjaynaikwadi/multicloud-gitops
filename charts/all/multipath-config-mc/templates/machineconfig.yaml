@@ -1,8 +1,5 @@
 {{- /*
-  MachineConfig to:
-  - Drop desired multipath.conf content to /usr/local/share/multipath.conf.desired
-  - Install /usr/local/bin/multipath-merge.sh from files/
-  - Run a systemd oneshot service to merge/append config
+  MachineConfig: desired multipath conf, script (files/) and systemd units (systemd.units)
 */ -}}
 
 {{- $mergeScript := .Files.Get "files/multipath-merge.sh" | trim -}}
@@ -21,6 +18,7 @@ spec:
       version: 3.2.0
     storage:
       files:
+        # canonical desired config (source of truth)
         - path: /usr/local/share/multipath.conf.desired
           mode: 0644
           overwrite: true
@@ -28,6 +26,7 @@ spec:
             source: >
               data:text/plain;charset=utf-8;base64,{{ .Values.configContent | b64enc }}
 
+        # install the merge script (canonical copy)
         - path: /usr/local/bin/multipath-merge.sh
           mode: 0755
           overwrite: true
@@ -37,6 +36,7 @@ spec:
 
     systemd:
       units:
+        # original oneshot that merges/appends config (keeps current behavior)
         - name: multipath-merge.service
           enabled: true
           contents: |
@@ -51,4 +51,35 @@ spec:
 
             [Install]
             WantedBy=multi-user.target
+
+        # ensure service (runs the same script; runs on demand / timer)
+        - name: multipath-ensure.service
+          enabled: false
+          contents: |
+            [Unit]
+            Description=Ensure multipath.conf exists (copy from canonical desired)
+            Wants=network-online.target
+            After=network-online.target
+
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/local/bin/multipath-merge.sh
+
+            [Install]
+            WantedBy=multi-user.target
+
+        # timer unit - runs the ensure.service periodically and on boot
+        - name: multipath-ensure.timer
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Periodic ensure of /etc/multipath.conf
+
+            [Timer]
+            OnBootSec=30s
+            OnUnitActiveSec=5m
+            Persistent=true
+
+            [Install]
+            WantedBy=timers.target
 
