@@ -9,6 +9,7 @@ clusterGroup:
 
   projects:
     - hub
+    - portworx
 
 
   applications:
